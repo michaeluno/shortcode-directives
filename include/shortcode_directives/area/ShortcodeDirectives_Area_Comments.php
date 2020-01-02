@@ -20,8 +20,10 @@ class ShortcodeDirectives_Area_Comments extends ShortcodeDirectives_Area_Base {
         if ( ! isset( $aCommentData[ 'comment_post_ID' ] ) ) {
             return $aCommentData;
         }
-        $_oPost = get_post( $aCommentData[ 'comment_post_ID' ] );
-        if ( ! in_array( $_oPost->post_type, $this->aPostTypeSlugs, true ) ) {
+        // Retrieving the post data as an array (not a WP_Post object) for compatibility with cases of being called from a `wp_insert_post_data` filter callback.
+        // With that hook, the post is not created yet thus not possible to have a WP_Post object.
+        $_aPost = get_post( $aCommentData[ 'comment_post_ID' ], 'ARRAY_A' );
+        if ( ! in_array( $_aPost[ 'post_type' ], $this->aPostTypeSlugs, true ) ) {
             return $aCommentData;
         }
         $_iCommenterID = $this->getElement(
@@ -29,11 +31,11 @@ class ShortcodeDirectives_Area_Comments extends ShortcodeDirectives_Area_Base {
             array( 'user_ID' ),
             $this->getElement( $aCommentData, array( 'user_id' ), 0 )
         );
-        if ( ! $this->_isAuthorizedUser( $_iCommenterID, $_oPost ) ) {
+        if ( ! $this->_isAuthorizedUser( $_iCommenterID, $_aPost ) ) {
             return $aCommentData;
         }
 
-        do_action( 'shortcode_directives_action_register_directives_comment', $_oPost, $aCommentData );
+        do_action( 'shortcode_directives_action_register_directives_comment', $_aPost, $aCommentData );
         add_filter( 'pre_comment_content', array( $this, 'replyToFilterCommentPreContent' ), PHP_INT_MAX );
         return $aCommentData;
 

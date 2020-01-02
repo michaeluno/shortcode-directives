@@ -41,19 +41,3 @@ This is a plugin template for the developer to modify it to create their own plu
 
 = 1.0.0 =
 - Released. 
-
-= 0.0.9 =
-- Fixed an issue that translation files were not automatically detected by wordpress.org.
-
-= 0.0.8 =
-- Fixed an issue that temporary directory could not be deleted upon plugin uninstallation.
-
-= 0.0.7 =
-- Added a test suite.
-- Updated Admin Page Framework to 3.8.18.
-
-= 0.0.6 =
-- Fixed a bug calling an undefined property in a form validation.
-
-= 0.0.5 =
-- Added some class constants and methods in the registery class.

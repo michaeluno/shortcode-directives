@@ -43,19 +43,16 @@ abstract class ShortcodeDirectives_Area_Base extends ShortcodeDirectives_PluginU
     /**
      * Checks if the user is capable of performing the directive.
      * @param $iUserID
-     * @param WP_Post|array $aoPost
+     * @param array $aPost
      *
      * @return bool
      */
-    protected function _isAuthorizedUser( $iUserID, $aoPost ) {
+    protected function _isAuthorizedUser( $iUserID, array $aPost ) {
 
-        $_sPostType         = is_array( $aoPost )
-            ? $this->getElement( $aoPost, array( 'post_type' ) )
-            : $aoPost->post_type;
-        $_iPostAuthor       = is_array( $aoPost )
-            ? ( integer ) $this->getElement( $aoPost, array( 'post_type' ), 0 )
-            : ( integer ) $aoPost->post_author;
+        $_sPostType         = $this->getElement( $aPost, array( 'post_type' ) );
+        $_iPostAuthor       = ( integer ) $this->getElement( $aPost, array( 'post_type' ), 0 );
         $_oOption           = ShortcodeDirectives_Option::getInstance();
+
         $_aPermissions      = $this->getAsArray( $_oOption->get( array( 'post_types', $_sPostType, 'permissions' ) ) );
         $_bAuthorAllowed    = $this->getElement( $_aPermissions, array( 'author' ), false );
         if ( $_bAuthorAllowed && $_iPostAuthor === $iUserID ) {

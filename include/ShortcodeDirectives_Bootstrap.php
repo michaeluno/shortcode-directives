@@ -151,7 +151,7 @@ final class ShortcodeDirectives_Bootstrap extends ShortcodeDirectives_AdminPageF
 
         // Events
         // new ShortcodeDirectives_Event;    
-        
+
     }
         /**
          * Includes additional files.

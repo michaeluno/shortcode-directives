@@ -94,11 +94,13 @@ final class ShortcodeDirectives_Registry extends ShortcodeDirectives_Registry_Ba
         'delete'    => array(
             'delete_on_uninstall' => false,
         ),
-//
-//        'css'       => array(
-//            'custom_css' => '',
-//        ),
 
+        'log'       => array(
+            'keep' => array(
+                'enable' => true,
+                'length' => 100,
+            ),
+        ),
         'post_types' => array(
             'post'  => array(
                 'areas'    => array(

@@ -24,7 +24,12 @@
  * [$tag action=remove slug=post_tag apple banana "Apple Pie"]        - removes passed tags.
  * ```
  */
-class ShortcodeDirectives_Directive_Comment_tag extends ShortcodeDirectives_Directive_Comment_taxnomomy {
+class ShortcodeDirectives_Directive_tag extends ShortcodeDirectives_Directive_taxnomomy {
+
+    public $aTypes   = array(
+        'post',
+        'comment'
+    );
 
     public $aDirectives = array(
         '$tag',
@@ -32,43 +37,35 @@ class ShortcodeDirectives_Directive_Comment_tag extends ShortcodeDirectives_Dire
 
     /**
      * @param  array $aAttributes
-     * @param  WP_Post $oSubject
+     * @param  array $aSubject
      * @return mixed|void
      */
-    protected function _doAction( array $aAttributes, $oSubject, $aData ) {
+    protected function _doAction( array $aAttributes, $aSubject, $aData ) {
 
-        $_boTaxonomy  = $this->___getFirstFoundPublicNonHierarchicalTaxonomy( $oSubject );
+        $_iThisPostID = $this->getElement( $aSubject,'ID' );
+        $_sPostType   = $this->getElement( $aSubject, array( 'post_type' ), '' );
+        $_boTaxonomy  = $this->_getFirstFoundPublicTaxonomy( $_sPostType, false );
         if ( ! $_boTaxonomy ) {
-            return;
+            return 'A non-hierarchical taxonomy was not found for the post. Post ID: ' . $_iThisPostID . ' Post Type: ' . $_sPostType;
         }
         return parent::_doAction(
             array( 'slug'  => $_boTaxonomy->name ) + $aAttributes + $this->aOptions,
-            $oSubject,
+            $aSubject,
             $aData
         );
 
     }
 
         /**
-         * @param WP_Post $oPost
+         * @param integer $iPostID
          *
          * @return bool|WP_Taxonomy
          */
-        private function ___getFirstFoundPublicNonHierarchicalTaxonomy( WP_Post $oPost ) {
-            $_aTaxonomies = get_object_taxonomies( $oPost, 'objects' );
-            foreach( $_aTaxonomies as $_oTaxonomy ) {
-                if ( $_oTaxonomy->hierarchical ) {
-                    continue;
-                }
-                if ( 'post_format' === $_oTaxonomy->name ) {
-                    continue;
-                }
-                if ( ! $_oTaxonomy->public ) {
-                    continue;
-                }
-                return $_oTaxonomy; // first found
+        private function ___getFirstFoundPublicNonHierarchicalTaxonomy( $iPostID ) {
+            if ( ! $iPostID ) {
+                return false;
             }
-            return false;
+            return $this->_getFirstFoundPublicTaxonomy( $iPostID, false );
         }
 
 }

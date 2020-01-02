@@ -14,4 +14,5 @@
  * @since    0.0.1       
  */
 class ShortcodeDirectives_PluginUtility extends ShortcodeDirectives_WPUtility {
+
 }

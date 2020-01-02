@@ -16,6 +16,18 @@
 class ShortcodeDirectives_WPUtility extends ShortcodeDirectives_Utility {
 
     /**
+     * @param WP_Error $oWPError
+     * @return  string
+     */
+    static public function getWPErrorMessages( WP_Error $oWPError ) {
+        $_aMessages = array();
+        foreach( $oWPError->errors as $_isCode => $_aMessages ) {
+            $_aMessages[] = $_isCode . ': ' . implode( '; ', $_aMessages );
+        }
+        return implode( '; ', $_aMessages );
+    }
+
+    /**
      * Deletes transient items by prefix of a transient key.
      *
      * @since    0.0.1
