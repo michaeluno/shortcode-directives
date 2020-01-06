@@ -9,7 +9,7 @@ Stable tag:         1.0.9
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
-Enables shortcode directives that perform certain operations on posts and comments.
+Allows you to perform certain actions on posts and comments with shortcode directives.
 
 == Description ==
 

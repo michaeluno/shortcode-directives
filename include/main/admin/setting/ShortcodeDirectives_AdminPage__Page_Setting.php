@@ -2,7 +2,7 @@
 /**
  * Shortcode Directives
  * 
- * [PROGRAM_URI]
+ * http://en.michaeluno.jp/shortcode-directivies
  * Copyright (c) 2020 Michael Uno; Licensed under <LICENSE_TYPE>
  * 
  */
@@ -36,7 +36,7 @@ class ShortcodeDirectives_AdminPage__Page_Setting extends ShortcodeDirectives_Ad
         
         // Tabs
         new ShortcodeDirectives_AdminPage__InPageTab_PostType( $oFactory, $this->_sPageSlug );
-        new ShortcodeDirectives_AdminPage__InPageTab_General( $oFactory, $this->_sPageSlug );
+//        new ShortcodeDirectives_AdminPage__InPageTab_General( $oFactory, $this->_sPageSlug );
         new ShortcodeDirectives_AdminPage__InPageTab_Log( $oFactory, $this->_sPageSlug );
         new ShortcodeDirectives_AdminPage__InPageTab_Data( $oFactory, $this->_sPageSlug );
 

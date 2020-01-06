@@ -2,7 +2,7 @@
 /**
  * Shortcode Directives
  *
- * [PROGRAM_URI]
+ * http://en.michaeluno.jp/shortcode-directivies
  * Copyright (c) 2020 Michael Uno; Licensed under <LICENSE_TYPE>
  */
 

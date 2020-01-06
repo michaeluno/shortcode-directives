@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name:    Shortcode Directives
- * Plugin URI:     [PROGRAM_URI]
- * Description:    Enables shortcode directives that perform certain operations on posts and comments.
+ * Plugin URI:     http://en.michaeluno.jp/shortcode-directivies
+ * Description:    Enables shortcode directives that perform certain actions on posts and comments.
  * Author:         Michael Uno
  * Author URI:     http://en.michaeluno.jp
- * Version:        0.0.9
+ * Version:        1.0.0
  * Text Domain:   
  * Domain Path:    language
  */
@@ -17,13 +17,13 @@
  */
 class ShortcodeDirectives_Registry_Base {
  
-    const VERSION        = '0.0.9';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION        = '1.0.0';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME           = 'Shortcode Directives';
-    const DESCRIPTION    = 'Enables shortcode directives that perform certain operations on posts and comments.';
-    const URI            = '[PROGRAM_URI]';
+    const DESCRIPTION    = 'Enables shortcode directives that perform certain actions on posts and comments.';
+    const URI            = 'http://en.michaeluno.jp/shortcode-directivies';
     const AUTHOR         = 'Michael Uno';
     const AUTHOR_URI     = 'http://en.michaeluno.jp';
-    const PLUGIN_URI     = '[PROGRAM_URI]';
+    const PLUGIN_URI     = 'http://en.michaeluno.jp/shortcode-directivies';
     const COPYRIGHT      = 'Copyright (c) 2020, Michael Uno';
     const LICENSE        = 'GPL v2 or later';
     const CONTRIBUTORS   = '';
