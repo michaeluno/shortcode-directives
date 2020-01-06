@@ -8,6 +8,7 @@
  * ```
  * [$post_column column=post_parent 2354]
  * [$post_column column=post_status pending to=parent]
+ * [$post_column column=post_title value="This is a title"]
  * ```
  */
 class ShortcodeDirectives_Directive_post_column extends ShortcodeDirectives_Directive_Base {
@@ -53,7 +54,11 @@ class ShortcodeDirectives_Directive_post_column extends ShortcodeDirectives_Dire
             return new WP_Error( 'no_posts_found', 'No posts could not be found to perform the operation. To: ' . $_isTo . '. Post ID: ' . $_iThisPostID );
         }
 
-        $_snValue   = $this->getElement( $_aCommands, array( 0 ), null );
+        $_snValue   = $this->getElement(
+            $_aOptions,
+            array( 'value' ),
+            $this->getElement( $_aCommands, array( 0 ), null )
+        );
         if ( null === $_snValue ) {
             return new WP_Error( 'value_not_set', 'A value is not set. Post ID: ' . $_iThisPostID );
         }
@@ -81,6 +86,7 @@ class ShortcodeDirectives_Directive_post_column extends ShortcodeDirectives_Dire
          * @return string|WP_Error      The message that indicates the result.
          */
         private function ___getPostUpdated( array $aArguments ) {
+
             $_ioResult = wp_update_post( $aArguments );
             if ( is_wp_error( $_ioResult ) ) {
                 $_ioResult->add( 'failed_wp_update_post', 'wp_update_post() returned an error.' );
