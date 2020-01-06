@@ -14,7 +14,8 @@
  * ```
  * [$post_meta _my_meta_key value]
  * [$post_meta to something]
- * [$post_meta _my_meta_key value to=parent aciton=delete]
+ * [$post_meta _my_meta_key to=parent aciton=delete]
+ * [$post_meta _meta_key _meta_key2 aciton=delete]
  * ```
  */
 class ShortcodeDirectives_Directive_post_meta extends ShortcodeDirectives_Directive_Base {
@@ -50,18 +51,15 @@ class ShortcodeDirectives_Directive_post_meta extends ShortcodeDirectives_Direct
         $_aCommands      = $this->_getSubCommands( $aAttributes, $this->aSubCommands );
         $_iThisPostID    = ( integer ) $this->getElement( $aSubject, array( 'ID' ), 0 );
 
-        $_aKeyValues     = $this->getElementsOfAssociativeKeys( $aAttributes );
-        $_aOptions       = $_aKeyValues + $this->aOptions;
-        unset( $_aKeyValues[ 'to' ] );
-        if ( isset( $_aCommands[ 0 ] ) ) {
-            $_aKeyValues[ $_aCommands[ 0 ] ] = $this->getElement( $_aCommands, array( 1 ), null );
-        }
+        $_aNamedKeys     = $this->getElementsOfAssociativeKeys( $aAttributes );
+        $_aOptions       = $_aNamedKeys + $this->aOptions;
+        $_sAction        = $this->getElement( $_aOptions, array( 'action' ), 'add' );
+        $_sAction        = strtolower( $_sAction );
+        $_aKeyValues     = $this->___getKeyValuePairs( $_aNamedKeys, $_aCommands, $_sAction );
         if ( empty( $_aKeyValues ) ) {
             return 'No key value pairs specified: ' . $_iThisPostID;
         }
 
-        $_sAction   = $this->getElement( $_aOptions, array( 'action' ), 'add' );
-        $_sAction   = strtolower( $_sAction );
         $_isTo      = $this->getElement( $_aOptions, array( 'to' ), 'self' ); // (integer|string) the target entity (post|comment)
         $_aPosts    = $this->_getTargetPosts( $aSubject, $_isTo );
         if ( empty( $_aPosts ) ) {
@@ -83,6 +81,21 @@ class ShortcodeDirectives_Directive_post_meta extends ShortcodeDirectives_Direct
         return $_aResults;
 
     }
+        private function ___getKeyValuePairs( array $aNamedKeys, array $aCommands, $sAction ) {
+            unset( $aNamedKeys[ 'to' ], $aNamedKeys[ 'action' ] );
+            if ( 'delete' === $sAction ) {
+                $_aKeyValues = array();
+                foreach( $aCommands as $_sMetaKey ) {
+                    $_aKeyValues[ $_sMetaKey ] = null;
+                }
+                return $_aKeyValues + $aNamedKeys;
+            }
+            // At this point, the action is 'add'
+            if ( isset( $aCommands[ 0 ] ) ) {
+                $aNamedKeys[ $aCommands[ 0 ] ] = $this->getElement( $aCommands, array( 1 ), null );
+            }
+            return $aNamedKeys;
+        }
 
         /**
          * @param $iPostID
