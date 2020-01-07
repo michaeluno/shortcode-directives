@@ -86,7 +86,7 @@ foreach( ShortcodeDirectives_Registry::$aDatabaseTables as $_aTable ) {
 }
 
 // Remove user meta keys used by the plugin
-foreach( Zapper_Registry::$aUserMetas as $_sMetaKey => $_v ) {
+foreach( ShortcodeDirectives_Registry::$aUserMetas as $_sMetaKey => $_v ) {
     delete_metadata(
         'user',    // the user meta type
         0,  // does not matter here as deleting them all
