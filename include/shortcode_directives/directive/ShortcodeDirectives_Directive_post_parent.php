@@ -38,11 +38,11 @@ class ShortcodeDirectives_Directive_post_parent extends ShortcodeDirectives_Dire
         $_aCommands      = $this->_getSubCommands( $aAttributes, $this->aSubCommands );
         $_iThisPostID    = ( integer ) $this->getElement( $aSubject, array( 'ID' ), 0 );
         $_iParentID      = ( integer ) $this->getElement( $_aCommands, array( 0 ), 0 );
-        if ( ! $_iParentID ) {
+        if ( 0 === strlen( $_iParentID ) ) {    // `0` is accepted
             return new WP_Error( 'missing_parent_id', 'A post parent ID is missing. Post ID: ' . $_iThisPostID );
         }
 
-        $aAttributes[ 'column' ] = 'post_parent';
+        $aAttributes[ '--column' ] = 'post_parent';
         return parent::_doAction( $aAttributes, $aSubject, $aData );
 
 

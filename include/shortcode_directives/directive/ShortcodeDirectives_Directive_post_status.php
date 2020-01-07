@@ -53,7 +53,7 @@ class ShortcodeDirectives_Directive_post_status extends ShortcodeDirectives_Dire
                 . 'Supported post statuses: ' . implode( ',', $_aPostStatuses ) . '.'
             );
         }
-        $aAttributes[ 'column' ] = 'post_status';
+        $aAttributes[ '--column' ] = 'post_status';
         return parent::_doAction( $aAttributes, $aSubject, $aData );
 
     }

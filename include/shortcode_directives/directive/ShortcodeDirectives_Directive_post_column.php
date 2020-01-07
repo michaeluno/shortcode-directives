@@ -26,11 +26,11 @@ class ShortcodeDirectives_Directive_post_column extends ShortcodeDirectives_Dire
 
     public $aSubCommands = array();
 
-    protected function _initialize() {
-        unset( $this->___iNewValue );
-        parent::_initialize();
-    }
-
+    public $aOptions = array(
+        '--column' => null,
+        '--value'  => null,
+        '--to'     => 'self',
+    );
     /**
      * @param   array $aAttributes
      * @param   array $aSubject
@@ -42,13 +42,13 @@ class ShortcodeDirectives_Directive_post_column extends ShortcodeDirectives_Dire
         $_aCommands      = $this->_getSubCommands( $aAttributes, $this->aSubCommands );
         $_iThisPostID    = ( integer ) $this->getElement( $aSubject, array( 'ID' ), 0 );
 
-        $_aOptions      = $this->getElementsOfAssociativeKeys( $aAttributes ) + $this->aOptions;
-        $_sColumnName   = $this->getElement( $_aOptions, array( 'column' ), '' ); // (integer|string) the target entity (post|comment)
+        $_aOptions      = $this->_getCommandOptions( $aAttributes );
+        $_sColumnName   = $this->getElement( $_aOptions, array( '--column' ), '' ); // (integer|string) the target entity (post|comment)
         if ( ! $_sColumnName ) {
             return 'The column name is not specified. Post ID: ' . $_iThisPostID;
         }
 
-        $_isTo      = $this->getElement( $_aOptions, array( 'to' ), 'self' ); // (integer|string) the target entity (post|comment)
+        $_isTo      = $this->getElement( $_aOptions, array( '--to' ), 'self' ); // (integer|string) the target entity (post|comment)
         $_aPosts    = $this->_getTargetPosts( $aSubject, $_isTo );
         if ( empty( $_aPosts ) ) {
             return new WP_Error( 'no_posts_found', 'No posts could not be found to perform the operation. To: ' . $_isTo . '. Post ID: ' . $_iThisPostID );
@@ -56,7 +56,7 @@ class ShortcodeDirectives_Directive_post_column extends ShortcodeDirectives_Dire
 
         $_snValue   = $this->getElement(
             $_aOptions,
-            array( 'value' ),
+            array( '--value' ),
             $this->getElement( $_aCommands, array( 0 ), null )
         );
         if ( null === $_snValue ) {
@@ -96,6 +96,7 @@ class ShortcodeDirectives_Directive_post_column extends ShortcodeDirectives_Dire
             return $_ioResult
                 ? "Updated " . $_sArguments
                 : new WP_Error( 'failed_to_update', 'Could not update the post: ' . $_sArguments );
+
         }
     
 }

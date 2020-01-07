@@ -30,7 +30,7 @@ class ShortcodeDirectives_Directive_category extends ShortcodeDirectives_Directi
             return 'A hierarchical taxonomy was not found for the post. Post ID: ' . $_iThisPostID . ' Post Type: ' . $_sPostType;
         }
         return parent::_doAction(
-            array( 'slug'  => $_boTaxonomy->name ) + $aAttributes + $this->aOptions,
+            array( '--slug'  => $_boTaxonomy->name ) + $aAttributes + $this->aOptions,
             $aSubject,
             $aData
         );

@@ -7,15 +7,15 @@
  * or [$post_meta {meta key} {meta value}]
  * Example:
  * ```
+ * [$post_meta _meta_key "some value"]
  * [$post_meta _custom_field=normal]
  * [$post_meta _count_descendants=0 _count_direct_children=3]
  * ```
- * Limitatin: `to` and `action` are reserved. So the meta name of `to` or `action` cannot be used with the above format. Use the below instead.
+ *
+ * Limitatin: `--to` and `--action` are reserved. So the meta name of `--to` or `--action` cannot be used with the above format. Use the below instead.
  * ```
- * [$post_meta _my_meta_key value]
- * [$post_meta to something]
- * [$post_meta _my_meta_key to=parent aciton=delete]
- * [$post_meta _meta_key _meta_key2 aciton=delete]
+ * [$post_meta --to "some value"]
+ * [$post_meta --action "some value"]
  * ```
  */
 class ShortcodeDirectives_Directive_post_meta extends ShortcodeDirectives_Directive_Base {
@@ -36,8 +36,8 @@ class ShortcodeDirectives_Directive_post_meta extends ShortcodeDirectives_Direct
     public $aOptions = array(
         // Specifies the target to apply the diected operation
         // multiple values can be set separated by commas
-        'to'        => 'self',     // self, parent, children, descendants, {post id}
-        'action'    => 'add',      // add / delete
+        '--to'        => 'self',     // self, parent, children, descendants, {post id}
+        '--action'    => 'add',      // add / delete
     );
 
     /**
@@ -52,15 +52,14 @@ class ShortcodeDirectives_Directive_post_meta extends ShortcodeDirectives_Direct
         $_iThisPostID    = ( integer ) $this->getElement( $aSubject, array( 'ID' ), 0 );
 
         $_aNamedKeys     = $this->getElementsOfAssociativeKeys( $aAttributes );
-        $_aOptions       = $_aNamedKeys + $this->aOptions;
-        $_sAction        = $this->getElement( $_aOptions, array( 'action' ), 'add' );
-        $_sAction        = strtolower( $_sAction );
-        $_aKeyValues     = $this->___getKeyValuePairs( $_aNamedKeys, $_aCommands, $_sAction );
+        $_aOptions       = $this->_getCommandOptions( $aAttributes );
+        $_sAction        = strtolower( $this->getElement( $_aOptions, array( '--action' ), 'add' ) );
+        $_aKeyValues     = $this->___getKeyValuePairs( $_aNamedKeys, $_aCommands, $_sAction, $_aOptions );
         if ( empty( $_aKeyValues ) ) {
             return 'No key value pairs specified: ' . $_iThisPostID;
         }
 
-        $_isTo      = $this->getElement( $_aOptions, array( 'to' ), 'self' ); // (integer|string) the target entity (post|comment)
+        $_isTo      = $this->getElement( $_aOptions, array( '--to' ), 'self' ); // (integer|string) the target entity (post|comment)
         $_aPosts    = $this->_getTargetPosts( $aSubject, $_isTo );
         if ( empty( $_aPosts ) ) {
             return new WP_Error( 'no_posts_found', 'No posts could not be found to perform the operation. To: ' . $_isTo . '. Post ID: ' . $_iThisPostID );
@@ -81,8 +80,10 @@ class ShortcodeDirectives_Directive_post_meta extends ShortcodeDirectives_Direct
         return $_aResults;
 
     }
-        private function ___getKeyValuePairs( array $aNamedKeys, array $aCommands, $sAction ) {
-            unset( $aNamedKeys[ 'to' ], $aNamedKeys[ 'action' ] );
+        private function ___getKeyValuePairs( array $aNamedKeys, array $aCommands, $sAction, array $aOptions ) {
+            foreach( $aOptions as $_sKey => $mValue ) {
+                unset( $aNamedKeys[ $_sKey ] );
+            }
             if ( 'delete' === $sAction ) {
                 $_aKeyValues = array();
                 foreach( $aCommands as $_sMetaKey ) {

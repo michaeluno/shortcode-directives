@@ -19,7 +19,7 @@ abstract class ShortcodeDirectives_Directive_Base extends ShortcodeDirectives_Di
     public $aOptions = array(
         // Specifies the target to apply the diected operation
         // multiple values can be set separated by commas
-        'to'     => 'self',     // self, parent, children, descendants, {post id}
+        '--to'     => 'self',     // self, parent, children, descendants, {post id}
     );
 
     /**
@@ -247,6 +247,21 @@ abstract class ShortcodeDirectives_Directive_Base extends ShortcodeDirectives_Di
      */
     protected function _doAction( array $aAttributes, $aSubject, $mData ) {
         return '';
+    }
+
+    /**
+     * Extracts command options.
+     * The option names must start with `--` such as `--self`
+     * @param array $aAttributes
+     * @return array
+     */
+    protected function _getCommandOptions( array $aAttributes ) {
+        foreach( $aAttributes as $_sKey => $_mValue ) {
+            if ( '--' !== substr( $_sKey, 0, 2 ) ) {
+                unset( $aAttributes[ $_sKey ] );
+            }
+        }
+        return $aAttributes + $this->aOptions;
     }
 
     /**

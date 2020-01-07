@@ -6,25 +6,25 @@
  *
  * ### Adding terms
  * ```
- * [$taxonomy slug=post_tag Apple Banana "Apple Pie"]
+ * [$taxonomy --slug=post_tag Apple Banana "Apple Pie"]
  * ```
  *
  * ### Removing terms
  * ```
- * [$taxonomy remove="tip, sticky"]
- * [$taxonomy action=remove tip sticky]
+ * [$taxonomy --remove="tip, sticky"]
+ * [$taxonomy --action=remove tip sticky]
  * ```
  *
  * ```
- * [$taxonomy slug=post_tag to=self apple banana "Apple Pie"]           - applies to the submitted post itself. default: /self is omitted
- * [$taxonomy slug=post_tag to=parent apple banana "Apple Pie"]         - applies to the parent post
- * [$taxonomy slug=post_tag to=children apple banana "Apple Pie"]       - applies to all the child post
- * [$taxonomy slug=post_tag to=descendants apple banana "Apple Pie"]    - applies to all the child post
- * [$taxonomy slug=post_tag to={post id} apple banana "Apple Pie"]      - applies to the post specified with {post id}. Set a post ID in the part `{post id}`
- * [$taxonomy action=remove slug=post_tag apple banana "Apple Pie"]     - removes passed terms.
- * [$taxonomy action=remove-all slug=post_tag]                          - removes all the associated terms with the post.
- * [$taxonomy action=delete slug=post_tag apple banana "Apple Pie"]     - deletes passed terms from the database if the term is associated with the post.
- * [$taxonomy action=delete-all slug=post_tag apple banana "Apple Pie"] - deletes all the associated terms with the post from the database.
+ * [$taxonomy --slug=post_tag --to=self apple banana "Apple Pie"]           - applies to the submitted post itself. default: /self is omitted
+ * [$taxonomy --slug=post_tag --to=parent apple banana "Apple Pie"]         - applies to the parent post
+ * [$taxonomy --slug=post_tag --to=children apple banana "Apple Pie"]       - applies to all the child post
+ * [$taxonomy --slug=post_tag --to=descendants apple banana "Apple Pie"]    - applies to all the child post
+ * [$taxonomy --slug=post_tag --to={post id} apple banana "Apple Pie"]      - applies to the post specified with {post id}. Set a post ID in the part `{post id}`
+ * [$taxonomy --action=remove --slug=post_tag apple banana "Apple Pie"]     - removes passed terms.
+ * [$taxonomy --action=remove-all --slug=post_tag]                          - removes all the associated terms with the post.
+ * [$taxonomy --action=delete --slug=post_tag apple banana "Apple Pie"]     - deletes passed terms from the database if the term is associated with the post.
+ * [$taxonomy --action=delete-all --slug=post_tag apple banana "Apple Pie"] - deletes all the associated terms with the post from the database.
  * ```
  */
 class ShortcodeDirectives_Directive_taxnomomy extends ShortcodeDirectives_Directive_Base {
@@ -39,11 +39,11 @@ class ShortcodeDirectives_Directive_taxnomomy extends ShortcodeDirectives_Direct
     );
 
     public $aOptions = array(
-        'add'    => '',
-        'remove' => '',
-        'delete' => '',     // alias of `remove`
-        'to'     => '',     // self, parent, children, descendants, {post id}
-        'action' => 'add',  // add / remove / remove-all
+        '--add'    => '',
+        '--remove' => '',
+        '--delete' => '',     // alias of `remove`
+        '--to'     => '',     // self, parent, children, descendants, {post id}
+        '--action' => 'add',  // add / remove / remove-all
     );
 
     /**
@@ -55,28 +55,28 @@ class ShortcodeDirectives_Directive_taxnomomy extends ShortcodeDirectives_Direct
      */
     protected function _doAction( array $aAttributes, $aSubject, $mData ) {
 
-        $_sTaxonomySlug = $this->getElement( $aAttributes, array( 'slug' ), '' );
+        $_sTaxonomySlug = $this->getElement( $aAttributes, array( '--slug' ), '' );
         if ( empty( $_sTaxonomySlug ) ) {
             return new WP_Error( 'no_slug_specified', 'The slug must be set. e.g. $taxonomy slug=post_tag TermA TermB' );
         }
 
         // Parse attributes
         $_aTerms      = $this->getElementsOfNumericKeys( $aAttributes );
-        $_aOptions    = $this->getElementsOfAssociativeKeys( $aAttributes ) + $this->aOptions;
+        $_aOptions    = $this->_getCommandOptions( $aAttributes );
 
         $_iThisPostID = ( integer ) $this->getElement( $aSubject, array( 'ID' ), 0 );
-        $_isTo        = $this->getElement( $_aOptions, array( 'to' ), 'self' ); // (integer|string) the target entity (post|comment)
-        $_sAction     = $this->getElement( $_aOptions, array( 'action' ), '' ); // (integer|string) the target entity (post|comment)
+        $_isTo        = $this->getElement( $_aOptions, array( '--to' ), 'self' ); // (integer|string) the target entity (post|comment)
+        $_sAction     = $this->getElement( $_aOptions, array( '--action' ), '' ); // (integer|string) the target entity (post|comment)
         $_sAction     = strtolower( $_sAction );
 
         $_aPosts      = $this->_getTargetPosts( $aSubject, $_isTo );
 
-        // Case: remove="foo, bar"
-        $_aRemoves  = $this->getCommaDelimitedElements( $this->getElement( $_aOptions, array( 'remove' ), '' ) );
+        // Case: --remove="foo, bar"
+        $_aRemoves  = $this->getCommaDelimitedElements( $this->getElement( $_aOptions, array( '---remove' ), '' ) );
         $_aRemoved  = $this->___removeTerms( $_aPosts, $_sTaxonomySlug, $_aRemoves, $_iThisPostID );
 
-        // Case: add="foo, bar"
-        $_aAdds     = $this->getCommaDelimitedElements( $this->getElement( $_aOptions, array( 'add' ), '' ) );
+        // Case: --add="foo, bar"
+        $_aAdds     = $this->getCommaDelimitedElements( $this->getElement( $_aOptions, array( '--add' ), '' ) );
         $_aAdded    = $this->___addTerms( $_aPosts, $_sTaxonomySlug, $_aAdds, $_iThisPostID );
 
         if ( in_array( $_sAction, array( 'delete', ), true ) ) {

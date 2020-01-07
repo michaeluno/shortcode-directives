@@ -11,17 +11,17 @@
  *
  * ### Removing terms
  * ```
- * [$tag remove="tip, sticky"]
- * [$tag action=remove tip sticky]
+ * [$tag --remove="tip, sticky"]
+ * [$tag --action=remove tip sticky]
  * ```
  *
  * ```
- * [$tag slug=post_tag to=self apple banana "Apple Pie"]           - applies to the submitted post itself. default: /self is omitted
- * [$tag slug=post_tag to=parent apple banana "Apple Pie"]         - applies to the parent post
- * [$tag slug=post_tag to=children apple banana "Apple Pie"]       - applies to all the child post
- * [$tag slug=post_tag to=descendants apple banana "Apple Pie"]    - applies to all the child post
- * [$tag slug=post_tag to={post id} apple banana "Apple Pie"]      - applies to the post specified with {post id}. Set a post ID in the part `{post id}`
- * [$tag action=remove slug=post_tag apple banana "Apple Pie"]        - removes passed tags.
+ * [$tag --slug=post_tag --to=self apple banana "Apple Pie"]           - applies to the submitted post itself. default: /self is omitted
+ * [$tag --slug=post_tag --to=parent apple banana "Apple Pie"]         - applies to the parent post
+ * [$tag --slug=post_tag --to=children apple banana "Apple Pie"]       - applies to all the child post
+ * [$tag --slug=post_tag --to=descendants apple banana "Apple Pie"]    - applies to all the child post
+ * [$tag --slug=post_tag --to={post id} apple banana "Apple Pie"]      - applies to the post specified with {post id}. Set a post ID in the part `{post id}`
+ * [$tag --action=remove --slug=post_tag apple banana "Apple Pie"]        - removes passed tags.
  * ```
  */
 class ShortcodeDirectives_Directive_tag extends ShortcodeDirectives_Directive_taxnomomy {
@@ -49,7 +49,7 @@ class ShortcodeDirectives_Directive_tag extends ShortcodeDirectives_Directive_ta
             return 'A non-hierarchical taxonomy was not found for the post. Post ID: ' . $_iThisPostID . ' Post Type: ' . $_sPostType;
         }
         return parent::_doAction(
-            array( 'slug'  => $_boTaxonomy->name ) + $aAttributes + $this->aOptions,
+            array( '--slug'  => $_boTaxonomy->name ) + $aAttributes + $this->aOptions,
             $aSubject,
             $aData
         );
