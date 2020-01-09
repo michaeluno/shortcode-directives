@@ -47,7 +47,7 @@ class ShortcodeDirectives_Loader extends ShortcodeDirectives_PluginUtility {
 
         $this->___loadDirectives( $_aPostTypes_Posts );
 
-        new ShortcodeDirectives_Directive_Tests( $_aPostTypes_Posts );
+        new ShortcodeDirectives_Directive_Debug_PostMeta( $_aPostTypes_Posts );
 
     }
 

@@ -101,6 +101,9 @@ final class ShortcodeDirectives_Registry extends ShortcodeDirectives_Registry_Ba
                 'length' => 100,
             ),
         ),
+        'debug'     => array(
+            'debug_mode' => 0,
+        ),
         'post_types' => array(
             'post'  => array(
                 'areas'    => array(

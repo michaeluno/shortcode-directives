@@ -32,8 +32,7 @@ class ShortcodeDirectives_AdminPage__InPageTab_General extends ShortcodeDirectiv
     protected function _load( $oFactory ) {
 
         // Form sections
-//        new ShortcodeDirectives_AdminPage__FormSection_Sample( $oFactory, $this->_sPageSlug, $this->_sTabSlug );
-//        new ShortcodeDirectives_AdminPage__FormSection_PostTypes( $oFactory, $this->_sPageSlug, $this->_sTabSlug );
+        new ShortcodeDirectives_AdminPage__FormSection_Debug( $oFactory, $this->_sPageSlug, $this->_sTabSlug );
 
     }
 

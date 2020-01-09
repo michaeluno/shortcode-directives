@@ -7,11 +7,11 @@
  */
 
 /**
- * Adds the 'Sample' form section to the 'General' tab.
+ * Adds the 'Debug' form section to the 'General' tab.
  *
  * @since    0.0.3
  */
-class ShortcodeDirectives_AdminPage__FormSection_Sample extends ShortcodeDirectives_AdminPage__FormSection_Base {
+class ShortcodeDirectives_AdminPage__FormSection_Debug extends ShortcodeDirectives_AdminPage__FormSection_Base {
 
     /**
      *
@@ -19,9 +19,9 @@ class ShortcodeDirectives_AdminPage__FormSection_Sample extends ShortcodeDirecti
      */
     protected function _getArguments( $oFactory ) {
         return array(
-            'section_id'    => 'sample',
+            'section_id'    => 'debug',
             'tab_slug'      => $this->_sTabSlug,
-            'title'         => __( 'Sample', 'shortcode-directives' ),
+            'title'         => __( 'Debug', 'shortcode-directives' ),
         );
     }
 
@@ -33,10 +33,10 @@ class ShortcodeDirectives_AdminPage__FormSection_Sample extends ShortcodeDirecti
     protected function _getFields( $oFactory ) {
         return array(
             array(
-                'field_id'          => 'delete_on_uninstall',
+                'field_id'          => 'debug_mode',
+                'title'             => __( 'Debug Mode', 'shortcode-directives' ),
                 'type'              => 'checkbox',
-                'show_title_column' => false,
-                'label'             => __( 'This is a checkbox', 'shortcode-directives' ),
+                'label'             => __( 'Enable', 'shortcode-directives' ),
             )
         );
 
