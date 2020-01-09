@@ -1,4 +1,4 @@
-# [Shortcode Directives](http://wordpress.org/plugins/shortcode-directives/) #
+# [Shortcode Directives](http://wordpress.org/plugins/shortcode-directives/)
 
 ### Welcome to our GitHub Repository
 
@@ -8,7 +8,7 @@ Shortcode Directives is an open source WordPress plugin that allows you to perfo
     <img src="" alt="Shortcode Directives" />
 </p>
 
-## Screenshots ##
+## Screenshots
 
 <div style="margin:20px; float:left">
 	<a href="" title="Shortcode Directives - Settings">
@@ -17,7 +17,7 @@ Shortcode Directives is an open source WordPress plugin that allows you to perfo
 	&nbsp;
 </div>
 
-## Installation ##
+## Installation
 
 - The latest development version can be found [here](https://github.com/michaeluno/shortcode-directives/branches). 
 - The latest stable version can be downloaded [here](http://downloads.wordpress.org/plugin/shortcode-directives.latest-stable.zip).
@@ -26,44 +26,48 @@ Shortcode Directives is an open source WordPress plugin that allows you to perfo
 2. Activate the plugin through the `Plugins` menu in WordPress.
 3. Go to **Dashboard** -> **Tools** -> **Shortcode Directives**.
 4. Configure the options by checking post types to support the shortcode directives.
-5. Submit comments with the shortcode directives to perform certain operations against the selected posts in front-end. 
+5. Submit comments with the shortcode directives to perform certain operations against the selected posts/comments from front-end. 
 
 
 ## Usage
 
-<h4>$post_status</h4>
+### $post_status
 Sets a specified post status.
-<strong>Format</strong>
+
+#### Format
 ```
 [$post_status {status}]
 ```
-<strong>Examples</strong>
+
+#### Examples
 Changes the post status to `pending`.
 ```
 [$post_status pending]
 ```
+
 Changes the post status to `draft`.
 ```
 [$post_status draft]
 ```
 
-<strong>Option: --to</strong>
-Specifies which post to apply the directive. This `--to` option is avialble for all the directives except `$comment`. Use `children`, `siblings`, and `descendants` for builk actions.
-- self (default): the comment/post iteself. When a comment with a directive is submitted to a post, that post will be the subject post and it is considered the one denoted by the option value, `self`.
-- parent: the parent post of the subject post.
-- {post ID}: the post ID.
-- children: the direct child posts of the subjec post if the post type supports the `hierarchical` option.
-- siblings: the sibling posts of the subject post in hierarchical relationships if the post type supports the `hierarchical` option.
-- decendants: all the decendants which belong to the subject post if the post type supports the `hierarchical` option.
+#### Option: --to
+Specifies which post to apply the directive operation. This `--to` option is avialble for all the directives except `$comment`. Use `children`, `siblings`, and `descendants` for builk actions.
+- `self` (default): the comment/post iteself. When a comment with a directive is submitted to a post, that post will be the subject post and it is considered the one denoted by the option value, `self`.
+- `parent`: the parent post of the subject post.
+- `{post ID}`: the post ID.
+- `children`: the direct child posts of the subjec post if the post type supports the `hierarchical` option.
+- `siblings`: the sibling posts of the subject post in hierarchical relationships if the post type supports the `hierarchical` option.
+- `decendants`: all the decendants which belong to the subject post if the post type supports the `hierarchical` option.
 
 This moves all the descendant posts to trash.
 ```
 [$post_status trash --to=descendants]
 ```
 
-<h4>$post_parent</h4>
+### $post_parent
 Sets a post parent ID.
-<strong>Format</strong>
+
+#### Format
 ```
 [$post_parent {post ID}]
 ```
@@ -76,12 +80,13 @@ This removes a post parent.
 [$post_parent 0]
 ```
 
-<strong>Option: --to</strong>
+#### Option: --to
 The same option values are supported described in the `$post_status` section above.
 
-<h4>$post_column</h4>
+### $post_column
 Sets a value with a specified post column name to an existent post column.
-<strong>Format</strong>
+
+#### Format
 ```
 [$post_column --column={colum name} {value}]
 [$post_column --column={colum name} --value="some value"]
@@ -97,12 +102,12 @@ When a value must have a white space, use the `--value` option.
 [$post_column --column=post_title --value="This is a title"]
 ```
 
-<strong>Option: --to</strong>
+#### Option: --to
 The same option values are supported described in the `$post_status` section above.
 
-<h4>$post_meta</h4>
+### $post_meta
 Sets a post meta value.
-<strong>Format</strong>
+#### Format
 ```
 [$post_meta {key} {value}]
 [$post_meta {key1}="{some value1}" {key2}="{some value2}" {key3}="{some value3}"...]
@@ -131,12 +136,13 @@ If you have to set them, use the command-line style format introduced above.
 [$post_meta --to "Another value here."]
 ```
 
-<strong>Option: --to</strong>
+#### Option: --to
 The same option values are supported described in the `$post_status` section above.
 
-<h4>$taxonomy</h4>
+### $taxonomy
 Sets taxonomy terms with a specified taxonomy slug.
-<strong>Format</strong>
+
+#### Format
 ```
 [$taxonomy --slug={taxonomy slug} {term1} {term2} {term3}...]
 ```
@@ -146,12 +152,12 @@ This adds the `Apple`, `Banana`, `Apple Pie` terms of the `post_tag` taxonomy to
 [$taxonomy --slug=post_tag Apple Banana "Apple Pie"]
 ```
 
-<strong>Option: --action</strong>
-- add (default) : adds the specified terms
-- remove : removes the specified terms
-- remove_all/remove_all : removes all the associated terms
-- delete : deletes the specified terms from the database if they are assigned to the post
-- delete_all/delete-all : deletes all the associated terms from the database
+#### Option: --action
+- `add` (default) : adds the specified terms
+- `remove` : removes the specified terms
+- `remove_all` / `remove_all` : removes all the associated terms
+- `delete` : deletes the specified terms from the database if they are assigned to the post
+- `delete_all` / `delete-all` : deletes all the associated terms from the database
 
 This removes the `Apple`, `Banana`, `Apple Pie` terms of the `post_tag` taxonomy from the post.
 ```
@@ -170,12 +176,14 @@ This deletes all the assigned terms of the `post_tag` taxonomy from the database
 [$taxonomy --slug=post_tag --action=delete_all]
 ```
 
-<strong>Option: --to</strong>
+#### Option: --to
 The same option values are supported described in the `$post_status` section above.
 
-<h4>$tag</h4>
+### $tag
 Sets non-hierarchical taxonomy terms.
-<strong>Format</strong>
+
+#### Format
+
 ```
 [$tag {tag1} {tag2} {tag3}...]
 ```
@@ -187,10 +195,10 @@ This adds the `Apple`, `Banana`, `Apple Pie` tags to the post.
 [$tag Apple Banana "Apple Pie"]
 ```
 
-<strong>Option: --action</strong>
+#### Option: --action
 The same action values with the `$taxonomy` directive are supported.
 
-This removes the `Apple`, `Banana`, `Apple Pie` tags to the post.
+This removes the `Apple`, `Banana`, `Apple Pie` tags from the post.
 ```
 [$tag --action=remove Apple Banana "Apple Pie"]
 ```
@@ -207,12 +215,13 @@ This deletes all the tags associated with the post from the database.
 [$tag --action=delete_all]
 ```
 
-<strong>Option: --to</strong>
+#### Option: --to
 The same option values are supported described in the `$post_status` section above.
 
-<h4>$category</h4>
+### $category
 Sets hierarchical taxonomy terms.
-<strong>Format</strong>
+
+#### Format
 ```
 [$category {category1} {category2} {category3}...]
 ```
@@ -239,26 +248,26 @@ This deletes all the categories associated with the post from the database.
 [$category --action=delete_all]
 ```
 
-<strong>Option: --action</strong>
+#### Option: --action
 The same action values with the `$taxonomy` directive are supported.
 
-<strong>Option: --to</strong>
+#### Option: --to
 The same option values are supported described in the `$post_status` section above.
 
-<h5>$comment</h5>
+### $comment
 Performs certain actions againt a replying comment. If commented on a post, the action applied to _all_ the comments which belong to the post. So be careful not to do that when you want to do someting on a single comment.
 
-<strong>Format</strong>
+#### Format
 ```
 [$comment {sub-command}]
 ```
 
-<strong>Sub-commands</strong>
-- delete|remove: deletes the comment
-- hold|disapprove: changes the comment status to `hold`.
-- trash: moves the comment to trash
-- spam: mark the commet as spam
-- convert: converts the comment to a child post.
+#### Sub-commands
+- `delete` / `remove`: deletes the comment
+- `hold` / `disapprove`: changes the comment status to `hold`.
+- `trash`: moves the comment to trash
+- `spam`: mark the commet as spam
+- `convert`: converts the comment to a child post.
 
 Replying to an existent comment with the following deletes the comment.
 ```
@@ -271,7 +280,6 @@ Commenting on a _post_ (not an existent comment) converts all the comments belon
 ```
 [$comment convert]
 ```
-
 
 ## Bugs ##
 If you find an issue, let us know [here](https://github.com/michaeluno/shortcode-directives/issues)!

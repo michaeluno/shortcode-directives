@@ -79,7 +79,7 @@ Changes the post status to `draft`.
 `
 
 <strong>Option: --to</strong>
-Specifies which post to apply the directive. This `--to` option is avialble for all the directives except `$comment`. Use `children`, `siblings`, and `descendants` for builk actions.
+Specifies which post to apply the directive operation. This `--to` option is avialble for all the directives except `$comment`. Use `children`, `siblings`, and `descendants` for builk actions.
 - self (default): the comment/post iteself. When a comment with a directive is submitted to a post, that post will be the subject post and it is considered the one denoted by the option value, `self`.
 - parent: the parent post of the subject post.
 - {post ID}: the post ID.
@@ -221,7 +221,7 @@ This adds the `Apple`, `Banana`, `Apple Pie` tags to the post.
 <strong>Option: --action</strong>
 The same action values with the `$taxonomy` directive are supported.
 
-This removes the `Apple`, `Banana`, `Apple Pie` tags to the post.
+This removes the `Apple`, `Banana`, `Apple Pie` tags from the post.
 `
 [$tag --action=remove Apple Banana "Apple Pie"]
 `
