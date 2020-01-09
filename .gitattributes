@@ -8,3 +8,4 @@ _note export-ignore
 *.bak export-ignore
 *.old export-ignore
 *.idea export-ignore
+.travis.yml export-ignore
